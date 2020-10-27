@@ -27,8 +27,37 @@ class Solution {
             temp = root;
         }
         int count=0;
-        return highTree(lowTree(temp,low,0),high,0);
+        //return highTree(lowTree(temp,low,0),high,0);
+            return newTree(root,low,high);
         }
+    }
+    public static TreeNode newTree(TreeNode r,int l, int h) {
+        if (r!=null) {
+            if (r.val<l) {
+                r.left = null;
+                newTree(r.right,l,h);
+            } else if (r.val>h) {
+                r.right = null;
+                newTree(r.left,l,h);
+            } else {
+                if (r.val==l || r.val==h) {
+                    r.left=null;
+                    r.right=null;
+                } else if (r.left!=null) {
+                    if (r.left.val<l && r.left.right!=null) {
+                        r.left=r.left.right;
+                    }
+                    newTree(r.left,l,h);
+                }
+            }
+        }
+        return r;
+        /*if (r.right!=null && (r.val < l || (r.val < h && r.val >l))) {
+            newTree(r.right, l, h);
+        }
+        if (r.left!=null && (r.val>h || (r.val > l && r.val <h))) {
+            newTree(r.left, l, h);
+        }*/
     }
     public TreeNode lowTree(TreeNode r, int l, int n) {
         n++;
@@ -49,11 +78,13 @@ class Solution {
             r.left=null;
             r.right=null;
         }
+        
         return r;
     }
     public TreeNode highTree(TreeNode r, int h, int n) {
-        
-        System.out.print(r.val);
+        if (r.right!=null) {
+        System.out.print(r.right.val);
+        }
         n++;
         if (r.val<h && r.right!=null) {
             r.left=null;
