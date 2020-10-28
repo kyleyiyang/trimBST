@@ -26,14 +26,18 @@ class Solution {
     }
     public static TreeNode newTree(TreeNode r,int l, int h) {
         if (r!=null) {
-            if (r.val<=l) {
+            if (r.val<l) {
+                System.out.println("before="+r.val);
                 r.left = null;
-                newTree(r.right,l,h);
-            } else if (r.val>=h) {
+                r=r.right;
+               // System.out.println("after="+r.val);
+                newTree(r,l,h);
+            } else if (r.val>h) {
                 r.right = null;
-                newTree(r.left,l,h);
+                r=r.left;
+                newTree(r,l,h);
             } else {
-                if (r.val==l || r.val==h) {
+                if (r.val==l || (r.val==h && r.left.val<l)) {
                     r.left=null;
                     r.right=null;
                 } else if (r.left!=null) {
@@ -59,7 +63,7 @@ class Solution {
             System.out.println(r.val);
             if (r.val<l) {
                 r=right;
-                System.out.println(r.val);
+                //System.out.println(r.val);
             }
             if (r.val>h) {
                 r=left;
