@@ -20,12 +20,21 @@ class Solution {
             return searchTree(root,low);
         } else {
             temp = newTree(root,low,high);
-           System.out.println("temp="+temp.val+";temp.right="+temp.right.val);
-            return cleanTree(temp,low,high);
+           //System.out.println("temp="+temp.val+";temp.right="+temp.right.val);
+            //return cleanTree(temp,low,high);
+            return temp;
         }
     }
     public static TreeNode newTree(TreeNode r,int l, int h) {
         if (r!=null) {
+            while (r.val<l) {
+                //System.out.println("1st r="+r.val);
+                r=r.right;
+                //System.out.println("2nd r="+r.val);
+            }
+            while (r.val>h) {
+                r=r.left;
+            }
             if (r.val<l) {
                 TreeNode sm = r.right;
                 r.left = null;
@@ -40,30 +49,17 @@ class Solution {
                 if (r.val==h) {
                     r.right = null;
                     left_connect(r,l);
-                    /*if (r.left!=null && r.left.val<l && r.left.right!=null) {
-                        r.left=r.left.right;
-                    }*/
                 }
                 if (r.val == l) {
                     r.left = null;
                     right_connect(r,h);
-                   /* if (r.right!=null && r.right.val>h && r.right.left!=null) {
-                        r.right = r.right.left;
-                    }*/
                 }
-                left_connect(r,l);
-                right_connect(r,h);
-                /*if (r.left!=null) {
-                    
-                    if (r.left.val<l && r.left.right!=null) {
-                        r.left=r.left.right;
-                    }
+                while (r.left!=null && r.left.val<l) {
+                    left_connect(r,l);
                 }
-                if (r.right!=null) {
-                    if (r.right.val>h && r.right.left!=null) {
-                        r.right = r.right.left;
-                    }
-                }*/
+                while (r.right!=null && r.right.val>h) {
+                    right_connect(r,h);
+                }
                 newTree(r.left,l,h);
                 newTree(r.right,l,h);
             }
@@ -84,18 +80,26 @@ class Solution {
         if (r!=null) {
             TreeNode left = r.left;
             TreeNode right = r.right;
-            if (r.val<l) {
-                System.out.println("1st r="+r.val);
-                r=right;
-                System.out.println("2nd r="+r.val);
+            while (r.val<l) {
+                //System.out.println("1st r="+r.val);
+                r=r.right;
+                //System.out.println("2nd r="+r.val);
             }
-            if (r.val>h) {
-                r=left;
+            while (r.val>h) {
+                r=r.left;
             }
+            /*while (r.left!=null && r.left.val<l) {
+                left_connect(r,l);
+            }
+            while (r.right!=null && r.right.val>h) {
+                right_connect(r,h);
+            }*/
             cleanTree(left,l,h);
             cleanTree(right,l,h);
         }
-        
+        /*if (r!=null) {
+            System.out.println(r.val);
+        }*/
         return r;
     }
     
