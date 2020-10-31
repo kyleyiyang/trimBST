@@ -68,7 +68,7 @@ class Solution {
                 newTree(r.right,l,h);
             }
         }
-        return r;
+        return (r==null) ? null : (r.val<l ? r=r.right : r);
     }
     public static void left_connect(TreeNode r, int l) {
         if (r.left!=null && r.left.val<l && r.left.right!=null) {
